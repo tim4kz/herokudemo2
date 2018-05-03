@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cars</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
+</head>
+<body>
+<div class="container">
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>Добавить авто</h1>
+                <form class="needs-validation" novalidate th:action="@{/cars}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <select multiple class="form-control" name="adminIId" required>
+                            <option th:each="admin : ${admins}"
+                                    th:value="${admin.adminId}"
+                                    th:text="${admin.fullName + ' ' + admin.cost}">Admin</option>
+                        </select>
+                        <div class="invalid-feedback">Выберите авто</div>
+                    </div>
+                    <button type="submit" class="btn btn-default" id="submit">Добавить авто в корзину</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>Авто</h1>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Авто</th>
+                        <th>Цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="car : ${cars}">
+                        <td th:text="${car.admin.fullName}"></td>
+                        <td th:text="${car.admin.cost}"></td>
+                        <td> <a th:href = "@{'/remove?id='+${car.carId}}"><button class="btn btn-outline=danger">Удалить</button></a><td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/jquery.js" type="application/javascript"></script>
+<script src="/bootstrap.min.js" type="application/javascript"></script>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+</body>
+</html>
